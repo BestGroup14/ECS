@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ECS.cs" />
+    <Compile Include="ECSClass.cs" />
     <Compile Include="Heater.cs" />
     <Compile Include="IHeater.cs" />
     <Compile Include="ITempSensor.cs" />

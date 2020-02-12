@@ -12,7 +12,7 @@ namespace ECS.New
         {
             var tempsensor = new TempSensor();
             var heater = new Heater();
-            var ecs = new ECS(28,tempsensor,heater);
+            var ecs = new ECSClass(28,tempsensor,heater);
 
             ecs.Regulate();
 

@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace ECS.New
 {
-    public class ECS
+    public class ECSClass
     {
         private int _threshold;
-        private readonly TempSensor _tempSensor;
-        private readonly Heater _heater;
+        private readonly ITempSensor _tempSensor;
+        private readonly IHeater _heater;
 
-        public ECS(int thr, TempSensor tempSensor, Heater heater)
+        public ECSClass(int thr, ITempSensor tempSensor, IHeater heater)
         {
             SetThreshold(thr);
             _tempSensor = tempSensor;
