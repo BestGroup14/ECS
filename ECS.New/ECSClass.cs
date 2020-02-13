@@ -9,29 +9,48 @@ namespace ECS.New
     public class ECSClass
     {
         private int _threshold;
+        private int _upperthreshold;
         private readonly ITempSensor _tempSensor;
         private readonly IHeater _heater;
+        private readonly IWindow _window;
 
-        public ECSClass(int thr, ITempSensor tempSensor, IHeater heater)
+        public ECSClass(int thr, int upperthr,ITempSensor tempSensor, IHeater heater, IWindow window)
         {
             SetThreshold(thr);
+            SetUpperThreshold(upperthr);
             _tempSensor = tempSensor;
             _heater = heater;
+            _window = window;
         }
 
         public void Regulate()
         {
             var t = _tempSensor.GetTemp();
-            if (t < _threshold)
+            if (t < _threshold && t < _upperthreshold)
+            {
                 _heater.TurnOn();
-            else
+                _window.CloseWindow();
+            }
+            else if (t > _threshold && t > _upperthreshold)
+            {
                 _heater.TurnOff();
-
+                _window.OpenWindow();
+            }
+            else if (t > _threshold && t < _upperthreshold)
+            {
+                _heater.TurnOff();
+                _window.CloseWindow();
+            }
         }
 
         public void SetThreshold(int thr)
         {
             _threshold = thr;
+        }
+
+        public void SetUpperThreshold(int upperthr)
+        {
+            _upperthreshold = upperthr;
         }
 
         public int GetThreshold()

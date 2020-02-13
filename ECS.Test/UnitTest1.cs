@@ -11,6 +11,7 @@ namespace ECS.Test
     {
         private FakeHeater fakeHeater;
         private FakeTempSensor fakeTempSensor;
+        private FakeWindow fakeWindow;
         private ECSClass uut;
 
         [SetUp]
@@ -18,13 +19,14 @@ namespace ECS.Test
         {
             fakeHeater = new FakeHeater();
             fakeTempSensor = new FakeTempSensor();
+            fakeWindow = new FakeWindow();
         }
 
 
         [Test]
         public void TestTurnOn()
         {
-            uut = new ECSClass(35, fakeTempSensor, fakeHeater);
+            uut = new ECSClass(35,40, fakeTempSensor, fakeHeater,fakeWindow);
 
             uut.Regulate();
 
@@ -34,7 +36,7 @@ namespace ECS.Test
         [Test]
         public void TestTurnOff()
         {
-            uut = new ECSClass(25, fakeTempSensor, fakeHeater);
+            uut = new ECSClass(25,40,fakeTempSensor, fakeHeater,fakeWindow);
 
             uut.Regulate();
 
@@ -44,11 +46,41 @@ namespace ECS.Test
         [Test]
         public void TestTemp()
         {
-            uut = new ECSClass(25, fakeTempSensor, fakeHeater);
+            uut = new ECSClass(25,40, fakeTempSensor, fakeHeater,fakeWindow);
 
             uut.Regulate();
 
             Assert.That(fakeTempSensor.GetTemp(), Is.EqualTo(30));
+        }
+
+        [Test]
+        public void TestWindowOpen()
+        {
+            uut = new ECSClass(20,25,fakeTempSensor,fakeHeater,fakeWindow);
+
+            uut.Regulate();
+
+            Assert.That(fakeWindow.WindowStatus,Is.EqualTo(true));
+        }
+
+        [Test]
+        public void TestWindowClose1()
+        {
+            uut = new ECSClass(35, 40, fakeTempSensor, fakeHeater, fakeWindow);
+
+            uut.Regulate();
+
+            Assert.That(fakeWindow.WindowStatus, Is.EqualTo(false));
+        }
+
+        [Test]
+        public void TestWindowClose2()
+        {
+            uut = new ECSClass(25, 35, fakeTempSensor, fakeHeater, fakeWindow);
+
+            uut.Regulate();
+
+            Assert.That(fakeWindow.WindowStatus, Is.EqualTo(false));
         }
 
         public class FakeHeater : IHeater
@@ -82,6 +114,20 @@ namespace ECS.Test
             public bool RunSelfTest()
             {
                 return true;
+            }
+        }
+
+        public class FakeWindow : IWindow
+        {
+            public bool WindowStatus { get; set; }
+            public void CloseWindow()
+            {
+                WindowStatus = false;
+            }
+
+            public void OpenWindow()
+            {
+                WindowStatus = true;
             }
         }
     }
