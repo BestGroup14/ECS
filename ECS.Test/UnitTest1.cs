@@ -108,7 +108,7 @@ namespace ECS.Test
         {
             public int GetTemp()
             {
-                return 30;
+                return 30; //Havde vi kun GetTemp var det en stub.
             }
 
             public bool RunSelfTest()
