@@ -66,6 +66,14 @@ namespace ECS.Substitute.Test.Unit
         }
 
         [Test]
+        public void Test_GetThreshold()
+        {
+            _uut = new ECSClass(25, 35, _fakeTempSensor, _fakeHeater, _fakeWindow);
+
+            Assert.That(_uut.GetThreshold(), Is.EqualTo(25));
+        }
+
+        [Test]
         public void TestWindowClose2()
         {
             _uut = new ECSClass(25, 35, _fakeTempSensor, _fakeHeater, _fakeWindow);
