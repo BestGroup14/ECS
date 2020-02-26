@@ -26,6 +26,14 @@ namespace ECS.Substitute.Test.Unit
         }
 
         [Test]
+        public void TestWindow_CloseWindow()
+        {
+            _fakeWindow.CloseWindow();
+
+            _fakeWindow.Received(1).CloseWindow();
+        }
+
+        [Test]
         public void TestWindowClose2()
         {
             _uut = new ECSClass(25, 35, _fakeTempSensor, _fakeHeater, _fakeWindow);
