@@ -21,16 +21,39 @@ namespace ECS.Substitute.Test.Unit
             _fakeTempSensor = NSubstitute.Substitute.For<ITempSensor>();
             _fakeTempSensor.GetTemp().Returns(30);
             _fakeWindow = NSubstitute.Substitute.For<IWindow>();
-
-
         }
 
         [Test]
-        public void TestWindow_CloseWindow()
+        public void Test_RunSelfTest_2false_false()
         {
-            _fakeWindow.CloseWindow();
+            _uut = new ECSClass(25, 35, _fakeTempSensor, _fakeHeater, _fakeWindow);
 
-            _fakeWindow.Received(1).CloseWindow();
+            _fakeHeater.RunSelfTest().Returns(false);
+            _fakeTempSensor.RunSelfTest().Returns(false);
+
+            Assert.IsFalse(_uut.RunSelfTest());
+        }
+
+        [Test]
+        public void Test_RunSelfTest_1false1true_false()
+        {
+            _uut = new ECSClass(25, 35, _fakeTempSensor, _fakeHeater, _fakeWindow);
+
+            _fakeHeater.RunSelfTest().Returns(false);
+            _fakeTempSensor.RunSelfTest().Returns(true);
+
+            Assert.IsFalse(_uut.RunSelfTest());
+        }
+
+        [Test]
+        public void Test_RunSelfTest_2true_true()
+        {
+            _uut = new ECSClass(25, 35, _fakeTempSensor, _fakeHeater, _fakeWindow);
+
+            _fakeHeater.RunSelfTest().Returns(true);
+            _fakeTempSensor.RunSelfTest().Returns(true);
+
+            Assert.IsTrue(_uut.RunSelfTest());
         }
 
         [Test]
